@@ -8,10 +8,10 @@ export default function Search({placeholder}: { placeholder: string }) {
     const pathName = usePathname();
     const { replace } = useRouter();
 
-    const handleSearch = async function (e){
+    const handleSearch = function (trim: string){
         const params = new URLSearchParams(searchParams);
-        if (e.target.value){
-            params.set('query', e.target.value);
+        if (trim){
+            params.set('query', trim);
         } else {
             params.delete("query");
         }
@@ -26,7 +26,7 @@ export default function Search({placeholder}: { placeholder: string }) {
             <input
                 className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 placeholder={placeholder}
-                onChange={handleSearch}
+                onChange={(e)=>{handleSearch(e.target.value)}}
                 defaultValue={searchParams.get('query')?.toString()}
             />
             <MagnifyingGlassIcon
