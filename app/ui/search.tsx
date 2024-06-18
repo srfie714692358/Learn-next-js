@@ -2,21 +2,23 @@
 
 import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 import {useSearchParams, usePathname, useRouter} from "next/navigation";
+import {useDebouncedCallback} from "use-debounce";
 
 export default function Search({placeholder}: { placeholder: string }) {
     const searchParams = useSearchParams();
     const pathName = usePathname();
-    const { replace } = useRouter();
+    const {replace} = useRouter();
 
-    const handleSearch = function (trim: string){
+    const handleSearch = useDebouncedCallback((trim: string) => {
         const params = new URLSearchParams(searchParams);
-        if (trim){
+        params.set("page", "1");
+        if (trim) {
             params.set('query', trim);
         } else {
             params.delete("query");
         }
         replace(`${pathName}?${params.toString()}`);
-    }
+    }, 300)
 
     return (
         <div className="relative flex flex-1 flex-shrink-0">
@@ -26,7 +28,9 @@ export default function Search({placeholder}: { placeholder: string }) {
             <input
                 className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 placeholder={placeholder}
-                onChange={(e)=>{handleSearch(e.target.value)}}
+                onChange={(e) => {
+                    handleSearch(e.target.value)
+                }}
                 defaultValue={searchParams.get('query')?.toString()}
             />
             <MagnifyingGlassIcon
