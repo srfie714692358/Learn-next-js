@@ -8,12 +8,12 @@ import {createInvoice, State} from "@/app/lib/actions"
 import {useState} from "react";
 
 export default function Form({customers}: { customers: CustomerField[] }) {
-    let initialState: State;
-    let [state, setState] = useState(initialState);
+    let initialStateCF: State; // initial state var for create form (this form is creation)
+    let [state, setState] = useState(initialStateCF);
 
     const formHandler = async function (formData) {
-        let newState = await createInvoice(state, formData);
-        setState(newState ? newState : initialState);
+        let newStateCF = await createInvoice(state, formData); // new state var for create form
+        setState(newStateCF ? newStateCF : initialStateCF);
     }
 
     return (

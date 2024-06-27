@@ -8,12 +8,12 @@ import {updateInvoice, State} from '@/app/lib/actions';
 import {useState} from "react";
 
 export default function EditInvoiceForm({invoice, customers}: { invoice: InvoiceForm; customers: CustomerField[]; }) {
-    let initialState: State;
-    let [state, setState] = useState(initialState);
+    let initialStateEF: State; // initial state var for edit form
+    let [state, setState] = useState(initialStateEF);
 
     const formHandler = async function (formData) {
-        let newState = await updateInvoice(state, invoice.id, formData);
-        setState(newState ? newState : initialState);
+        let newStateEF = await updateInvoice(state, invoice.id, formData); // new state var for edit form
+        setState(newStateEF ? newStateEF : initialStateEF);
     }
 
     return (
