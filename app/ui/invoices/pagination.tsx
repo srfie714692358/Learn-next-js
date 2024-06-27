@@ -36,6 +36,7 @@ export default function Pagination({totalPages}: { totalPages: number }) {
                         if (page === '...') position = 'middle';
 
                         return (<PaginationNumber
+                            key={page}
                             href={createPageURL(page)} page={page} position={position}
                             isActive={currentPage === page}/>);
                     })}
